@@ -1,3 +1,13 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/advanced-rest-client/file-drop/compare/1.0.2...v1.0.4) (2016-10-03)
+
+
+### Update
+
+* The attribute "file" is now notifying for changes ([1142e7b852e36c850e72e5a5690ef19c130bc549](https://github.com/advanced-rest-client/file-drop/commit/1142e7b852e36c850e72e5a5690ef19c130bc549))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/advanced-rest-client/file-drop/compare/1.0.2...v1.0.3) (2016-09-29)
 
