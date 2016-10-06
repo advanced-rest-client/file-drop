@@ -1,3 +1,14 @@
+<a name="1.0.6"></a>
+## [1.0.6](https://github.com/advanced-rest-client/file-drop/compare/1.0.5...v1.0.6) (2016-10-06)
+
+
+### New
+
+* Added dependencyci ([1cc20e8e7730121ee25e6b14b9434911e7a1e456](https://github.com/advanced-rest-client/file-drop/commit/1cc20e8e7730121ee25e6b14b9434911e7a1e456))
+* Added hero image ([feb2164a6b09c2cfabab338dca336fe215a9949e](https://github.com/advanced-rest-client/file-drop/commit/feb2164a6b09c2cfabab338dca336fe215a9949e))
+
+
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/advanced-rest-client/file-drop/compare/1.0.4...v1.0.5) (2016-10-03)
 
