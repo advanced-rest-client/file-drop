@@ -1,3 +1,13 @@
+<a name="1.0.7"></a>
+## [1.0.7](https://github.com/advanced-rest-client/file-drop/compare/1.0.6...v1.0.7) (2016-11-06)
+
+
+### Update
+
+* Added height for main container ([41cef58c45f0ee011b93d873fc0e96eafb645047](https://github.com/advanced-rest-client/file-drop/commit/41cef58c45f0ee011b93d873fc0e96eafb645047))
+
+
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/advanced-rest-client/file-drop/compare/1.0.5...v1.0.6) (2016-10-06)
 
