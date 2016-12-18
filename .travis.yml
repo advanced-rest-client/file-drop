@@ -6,11 +6,9 @@ before_script:
 - npm install --silent bower polymer-cli
 - bower install --silent
 addons:
-  sauce_connect: true
+  sauce_connect: false
 script:
 - node_modules/.bin/polymer lint file-drop.html
-- node_modules/.bin/polymer test --plugin sauce --job-name "file-drop:${TRAVIS_BRANCH}"
-  --build-number=${TRAVIS_BUILD_NUMBER}
 cache:
   directories:
   - bower_components
