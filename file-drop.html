@@ -221,20 +221,22 @@ To style the button use `<paper-button>` styles.
         this._setDragging(false);
         e.stopPropagation();
         e.preventDefault();
-        var items = Array.from(e.dataTransfer.items);
+
         var files = e.dataTransfer.files;
-        var entries = [];
-        items.forEach(function(item, i) {
-          var entry = item.webkitGetAsEntry();
-          entry.type = files[i].type;
-          entries.push(entry);
-        });
+        this._processEntries(files);
+        // var items = Array.from(e.dataTransfer.items);
+        // var entries = [];
+        // items.forEach(function(item, i) {
+        //   var entry = item.webkitGetAsEntry();
+        //   entry.type = files[i].type;
+        //   entries.push(entry);
+        // });
         // TODO: Can't remove files.
         // if (this.accept) {
         //   this._processEntriesAcceptance(entries);
         //   return;
         // }
-        this._processEntries(entries);
+        // this._processEntries(entries);
       },
 
       // _processEntriesAcceptance: function(entries) {
