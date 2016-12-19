@@ -1,5 +1,5 @@
 {
-  "esnext": true,
+  "esnext": false,
   "node": true,
   "browser": true,
   "bitwise": false,
@@ -15,8 +15,6 @@
   "unused": true,
   "newcap": false,
   "globals": {
-    "Polymer": true,
-    "fetch": true,
-    "Headers": true
+    "Polymer": true
   }
 }

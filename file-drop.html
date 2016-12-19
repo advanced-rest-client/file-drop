@@ -16,7 +16,7 @@ the License.
 <link rel="import" href="../paper-styles/paper-styles.html">
 <link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="../paper-button/paper-button.html">
-
+<script src="polyfills.js"></script>
 <!--
 ## `<file-drop>` File drop web component
 The `<file-drop>` component will render a filed where the user can drop files or directories into it.
@@ -98,7 +98,7 @@ To style the button use `<paper-button>` styles.
       <section id="dropSection" class$="[[_dropSectionClass]]">
         <p>Drop file here</p>
         <p>or select from your device</p>
-        <paper-button raised="" on-tap="selectFile">Select</paper-button>
+        <paper-button on-tap="selectFile">Select</paper-button>
         <input type="file" id="file" on-change="_manualSelected" multiple$="[[multiple]]" accept$="[[accept]]">
       </section>
     </div>
@@ -221,68 +221,73 @@ To style the button use `<paper-button>` styles.
         this._setDragging(false);
         e.stopPropagation();
         e.preventDefault();
-        var items = Array.from(e.dataTransfer.items);
+
         var files = e.dataTransfer.files;
-        var entries = [];
-        items.forEach((item, i) => {
-          let entry = item.webkitGetAsEntry();
-          entry.type = files[i].type;
-          entries.push(entry);
-        });
+        this._processEntries(files);
+        // var items = Array.from(e.dataTransfer.items);
+        // var entries = [];
+        // items.forEach(function(item, i) {
+        //   var entry = item.webkitGetAsEntry();
+        //   entry.type = files[i].type;
+        //   entries.push(entry);
+        // });
         // TODO: Can't remove files.
         // if (this.accept) {
         //   this._processEntriesAcceptance(entries);
         //   return;
         // }
-        this._processEntries(entries);
+        // this._processEntries(entries);
       },
 
-      _processEntriesAcceptance: function(entries) {
-        var all = [];
-        entries.forEach((item) => all.push(this._processEntryAccept(item)));
-        Promise.all(all).then(() => {
-          console.log('all entries processed', entries);
-        });
-      },
+      // _processEntriesAcceptance: function(entries) {
+      //   var all = [];
+      //   entries.forEach(function(item) {
+      //     all.push(this._processEntryAccept(item));
+      //   }, this);
+      //   Promise.all(all)
+      //   .then(function() {
+      //     console.log('all entries processed', entries);
+      //   });
+      // },
 
-      _processEntryAccept: function(entry) {
-        if (entry.isDirectory) {
-          return new Promise((resolve, reject) => {
-            let reader = entry.createReader();
-            let all = [];
-            var readEntries = () => {
-              reader.readEntries((results) => {
-                if (!results.length) {
-                  Promise.all(all).then(resolve);
-                } else {
-                  for (let i = 0; i < results.length; i++) {
-                    all.push(this._processEntryAccept(results[i]));
-                  }
-                  readEntries();
-                }
-              }, reject);
-            };
-            readEntries();
-          });
-        } else if (entry.isFile) {
-          return new Promise((resolve, reject) => {
-            entry.file((file) => {
-              if (!file.type.match(this.accept)) {
-                entry.remove(() => {
-                  console.log('The file has been removed');
-                  resolve();
-                }, (e) => {
-                  console.warn('The file could not be deleted', e);
-                  reject(e);
-                });
-              } else {
-                resolve();
-              }
-            });
-          });
-        }
-        return Promise.resolve();
-      },
+      // _processEntryAccept: function(entry) {
+      //   if (entry.isDirectory) {
+      //     return new Promise((resolve, reject) => {
+      //       let reader = entry.createReader();
+      //       let all = [];
+      //       var readEntries = () => {
+      //         reader.readEntries((results) => {
+      //           if (!results.length) {
+      //             Promise.all(all).then(resolve);
+      //           } else {
+      //             for (let i = 0; i < results.length; i++) {
+      //               all.push(this._processEntryAccept(results[i]));
+      //             }
+      //             readEntries();
+      //           }
+      //         }, reject);
+      //       };
+      //       readEntries();
+      //     });
+      //   } else if (entry.isFile) {
+      //     return new Promise((resolve, reject) => {
+      //       entry.file((file) => {
+      //         if (!file.type.match(this.accept)) {
+      //           entry.remove(() => {
+      //             console.log('The file has been removed');
+      //             resolve();
+      //           }, (e) => {
+      //             console.warn('The file could not be deleted', e);
+      //             reject(e);
+      //           });
+      //         } else {
+      //           resolve();
+      //         }
+      //       });
+      //     });
+      //   }
+      //   return Promise.resolve();
+      // },
 
       // A handler called when the user manually selected the file (not by drag and drop)
       _manualSelected: function() {

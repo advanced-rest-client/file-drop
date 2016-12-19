@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/advanced-rest-client/file-drop.svg?branch=master)](https://travis-ci.org/advanced-rest-client/file-drop)  [![Dependency Status](https://dependencyci.com/github/advanced-rest-client/file-drop/badge)](https://dependencyci.com/github/advanced-rest-client/file-drop)  
+
+# file-drop
 
 ## `<file-drop>` File drop web component
 The `<file-drop>` component will render a filed where the user can drop files or directories into it.
