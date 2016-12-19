@@ -1,3 +1,14 @@
+<a name="1.0.8"></a>
+## [1.0.8](https://github.com/advanced-rest-client/file-drop/compare/1.0.7...v1.0.8) (2016-12-19)
+
+
+### Update
+
+* Added new Travis configuration ([024db3c4ca3d5a098701fd06e45f9cdcf55bcdf0](https://github.com/advanced-rest-client/file-drop/commit/024db3c4ca3d5a098701fd06e45f9cdcf55bcdf0))
+* Removed unised and unstable code ([741a2e44137e5e548586c4b07d2c35c9fcf02893](https://github.com/advanced-rest-client/file-drop/commit/741a2e44137e5e548586c4b07d2c35c9fcf02893))
+
+
+
 <a name="1.0.7"></a>
 ## [1.0.7](https://github.com/advanced-rest-client/file-drop/compare/1.0.6...v1.0.7) (2016-11-06)
 
