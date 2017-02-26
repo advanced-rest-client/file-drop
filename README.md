@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/advanced-rest-client/file-drop.svg?branch=master)](https://travis-ci.org/advanced-rest-client/file-drop)  [![Dependency Status](https://dependencyci.com/github/advanced-rest-client/file-drop/badge)](https://dependencyci.com/github/advanced-rest-client/file-drop)  
+[![Build Status](https://travis-ci.org/advanced-rest-client/file-drop.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/file-drop)  
 
 # file-drop
 
@@ -9,13 +9,12 @@ User can choose a fallback option to select a file using browser's open file dia
 When files are selected by the user the `file-accepted` will be fired and the `<file-drop>.file` will contain a file entry.
 If `multiple` attribute is present then the `<file-drop>.file` will be always an array of entries. If not, multiple it will always be a single file entry.
 
-Depending on user imput method and type of the file there are 3 possible types that will be returned by `<file-drop>.file`
+Depending on user input method and type of the file there are 3 possible types that will be returned by `<file-drop>.file`
 DirectoryEntry - only when the user dropped a directory (not possible with file selector)
-FileEntry - if user dropped file onto the element
-File - only if user selected file(s) via file input (without drop)
+FileEntry - if the user dropped a file into the element
+File - only if the user selected file(s) via file input (without drop)
 
 The array of files may contain both DirectoryEntry and FileEntry types but never File.
-
 
 ### Example
 ```
@@ -33,8 +32,11 @@ Custom property | Description | Default
 | `--file-drop-zone-border-color` | A border color of the drop zone | `--paper-lime-300` |
 | `--file-drop-zone` | Mixin applied to the drop zone | `{}` |
 | `--file-drop-zone-border-color-active` | A border color of the active drop zone (files over the zone) | red |
+| `--file-drop-action-button` | Mixin applied to the main action button | `{}` |
+| `--file-drop-with-file` | Mixin applied to the container when the file is selected | `{}` |
+| `--file-drop-without-file` | Mixin applied to the container when the file is not selected | `{}` |
 
-To style the button use `<paper-button>` styles.
+The element renders only file selector button when whe screen size is less than 1024px. It means mobile device which can't make use of file drag and drop.
 
 
 
