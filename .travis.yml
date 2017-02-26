@@ -4,9 +4,7 @@ dist: trusty
 node_js: stable
 before_script:
 - npm install --silent bower polymer-cli
-- bower install --silent
-addons:
-  sauce_connect: false
+- node_modules/.bin/bower install --silent
 script:
 - node_modules/.bin/polymer lint file-drop.html
 cache:

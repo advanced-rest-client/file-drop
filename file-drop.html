@@ -13,8 +13,6 @@ the License.
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../paper-styles/paper-styles.html">
-<link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <script src="polyfills.js"></script>
 <!--
@@ -25,13 +23,12 @@ User can choose a fallback option to select a file using browser's open file dia
 When files are selected by the user the `file-accepted` will be fired and the `<file-drop>.file` will contain a file entry.
 If `multiple` attribute is present then the `<file-drop>.file` will be always an array of entries. If not, multiple it will always be a single file entry.
 
-Depending on user imput method and type of the file there are 3 possible types that will be returned by `<file-drop>.file`
+Depending on user input method and type of the file there are 3 possible types that will be returned by `<file-drop>.file`
 * DirectoryEntry - only when the user dropped a directory (not possible with file selector)
-* FileEntry - if user dropped file onto the element
-* File - only if user selected file(s) via file input (without drop)
+* FileEntry - if the user dropped a file into the element
+* File - only if the user selected file(s) via file input (without drop)
 
 The array of files may contain both DirectoryEntry and FileEntry types but never File.
-
 
 ### Example
 ```
@@ -49,8 +46,11 @@ Custom property | Description | Default
 | `--file-drop-zone-border-color` | A border color of the drop zone | `--paper-lime-300` |
 | `--file-drop-zone` | Mixin applied to the drop zone | `{}` |
 | `--file-drop-zone-border-color-active` | A border color of the active drop zone (files over the zone) | red |
+| `--file-drop-action-button` | Mixin applied to the main action button | `{}` |
+| `--file-drop-with-file` | Mixin applied to the container when the file is selected | `{}` |
+| `--file-drop-without-file` | Mixin applied to the container when the file is not selected | `{}` |
 
-To style the button use `<paper-button>` styles.
+The element renders only file selector button when whe screen size is less than 1024px. It means mobile device which can't make use of file drag and drop.
 
 @group UI Elements
 @element file-drop
@@ -62,16 +62,11 @@ To style the button use `<paper-button>` styles.
     <style>
      :host {
       display: block;
-      margin: 0 24px;
       @apply(--file-drop);
     }
 
     .drop-zone {
-      padding: 40px 0px;
-      border: 2px dashed var(--file-drop-zone-border-color, --paper-lime-300);
-      @apply(--layout-vertical);
-      @apply(--layout-center-center);
-      @apply(--file-drop-zone);
+
     }
 
     .drop-zone.active {
@@ -87,18 +82,40 @@ To style the button use `<paper-button>` styles.
     }
 
     .with-file {
-      opacity: 0;
+      @apply(--file-drop-with-file);
     }
 
     .without-file {
-      opacity: 1;
+      @apply(--file-drop-without-file);
+    }
+
+    .desktop-info {
+      display: none;
+    }
+
+    .main-button {
+      @apply(--file-drop-action-button);
+    }
+
+    @media (min-width: 1024px) {
+      .drop-zone {
+        padding: 40px 0px;
+        border: 2px dashed var(--file-drop-zone-border-color, --paper-lime-300);
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        @apply(--file-drop-zone);
+      }
+
+      .desktop-info {
+        display: block;
+      }
     }
     </style>
     <div id="main" class="layout vertical">
-      <section id="dropSection" class$="[[_dropSectionClass]]">
-        <p>Drop file here</p>
-        <p>or select from your device</p>
-        <paper-button on-tap="selectFile">Select</paper-button>
+      <section id="dropSection" class$="[[_computeMainSectionClass(dragging, hasFile)]]">
+        <p class="desktop-info">Drop file here</p>
+        <p class="desktop-info">or select from your device</p>
+        <paper-button class="main-button" on-tap="selectFile">Select file</paper-button>
         <input type="file" id="file" on-change="_manualSelected" multiple$="[[multiple]]" accept$="[[accept]]">
       </section>
     </div>
@@ -109,16 +126,13 @@ To style the button use `<paper-button>` styles.
 
     Polymer({
       is: 'file-drop',
+
       listeners: {
         'dragenter': '_onDragEnter',
         'dragleave': '_onDragLeave',
         'dragover': '_onDragOver',
-        'drop': '_onDrop',
-        'neon-animation-finish': '_onNeonAnimationFinish'
+        'drop': '_onDrop'
       },
-      behaviors: [
-        Polymer.NeonAnimationRunnerBehavior
-      ],
 
       /**
        * Fired when the file has been accepted and ready to use.
@@ -134,11 +148,6 @@ To style the button use `<paper-button>` styles.
           value: false,
           readOnly: true,
           notify: true
-        },
-        // Computed css class name for drop section
-        _dropSectionClass: {
-          type: String,
-          computed: '_computeDropSectionClassName(dragging)'
         },
 
         /**
@@ -166,31 +175,12 @@ To style the button use `<paper-button>` styles.
           value: null,
           notify: true
         },
+
         //True if the element received file(s).
         hasFile: {
           type: Boolean,
           value: false,
           computed: '_computeHasFile(file)'
-        },
-        animationConfig: {
-          value: function() {
-            return {
-              'entry': {
-                name: 'fade-out-animation',
-                node: this.$.dropSection,
-                timing: {
-                  duration: 700
-                }
-              },
-              'exit': {
-                name: 'fade-in-animation',
-                node: this.$.dropSection,
-                timing: {
-                  duration: 700
-                }
-              }
-            };
-          }
         }
       },
 
@@ -224,70 +214,7 @@ To style the button use `<paper-button>` styles.
 
         var files = e.dataTransfer.files;
         this._processEntries(files);
-        // var items = Array.from(e.dataTransfer.items);
-        // var entries = [];
-        // items.forEach(function(item, i) {
-        //   var entry = item.webkitGetAsEntry();
-        //   entry.type = files[i].type;
-        //   entries.push(entry);
-        // });
-        // TODO: Can't remove files.
-        // if (this.accept) {
-        //   this._processEntriesAcceptance(entries);
-        //   return;
-        // }
-        // this._processEntries(entries);
       },
-
-      // _processEntriesAcceptance: function(entries) {
-      //   var all = [];
-      //   entries.forEach(function(item) {
-      //     all.push(this._processEntryAccept(item));
-      //   }, this);
-      //   Promise.all(all)
-      //   .then(function() {
-      //     console.log('all entries processed', entries);
-      //   });
-      // },
-
-      // _processEntryAccept: function(entry) {
-      //   if (entry.isDirectory) {
-      //     return new Promise((resolve, reject) => {
-      //       let reader = entry.createReader();
-      //       let all = [];
-      //       var readEntries = () => {
-      //         reader.readEntries((results) => {
-      //           if (!results.length) {
-      //             Promise.all(all).then(resolve);
-      //           } else {
-      //             for (let i = 0; i < results.length; i++) {
-      //               all.push(this._processEntryAccept(results[i]));
-      //             }
-      //             readEntries();
-      //           }
-      //         }, reject);
-      //       };
-      //       readEntries();
-      //     });
-      //   } else if (entry.isFile) {
-      //     return new Promise((resolve, reject) => {
-      //       entry.file((file) => {
-      //         if (!file.type.match(this.accept)) {
-      //           entry.remove(() => {
-      //             console.log('The file has been removed');
-      //             resolve();
-      //           }, (e) => {
-      //             console.warn('The file could not be deleted', e);
-      //             reject(e);
-      //           });
-      //         } else {
-      //           resolve();
-      //         }
-      //       });
-      //     });
-      //   }
-      //   return Promise.resolve();
-      // },
 
       // A handler called when the user manually selected the file (not by drag and drop)
       _manualSelected: function() {
@@ -309,11 +236,17 @@ To style the button use `<paper-button>` styles.
           file: this.file
         });
       },
+
       // Computes class name for dragging section.
-      _computeDropSectionClassName: function(dragging) {
+      _computeMainSectionClass: function(dragging, hasFile) {
         var cls = 'drop-zone';
         if (dragging) {
           cls += ' active';
+        }
+        if (hasFile) {
+          cls += ' with-file';
+        } else {
+          cls += ' without-file';
         }
         return cls;
       },
@@ -325,27 +258,6 @@ To style the button use `<paper-button>` styles.
       reset: function() {
         this.file = null;
         this.$.file.value = null;
-        // this.cancelAnimation();
-        // var section = Polymer.dom(this.root).querySelector('#dropSection');
-        // if (section.classList.contains('with-file')) {
-        //   section.classList.remove('with-file');
-        // }
-        // this.playAnimation('exit');
-      },
-
-      _onNeonAnimationFinish: function() {
-        var section = Polymer.dom(this.root).querySelector('#dropSection');
-        if (this.file) {
-          if (!section.classList.contains('with-file')) {
-            section.classList.add('with-file');
-          }
-          section.classList.remove('without-file');
-        } else {
-          if (section.classList.contains('with-file')) {
-            section.classList.remove('with-file');
-          }
-          section.classList.add('without-file');
-        }
       }
     });
   })();
