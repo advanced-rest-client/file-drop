@@ -1,3 +1,13 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/advanced-rest-client/file-drop/compare/1.0.9...2.0.0) (2018-07-28)
+
+
+### Update
+
+* Updated element to work on mobile devices. The element will render the select file button only ([c7561e4674fc0ad8b48905b5589c408ce741acf2](https://github.com/advanced-rest-client/file-drop/commit/c7561e4674fc0ad8b48905b5589c408ce741acf2))
+
+
+
 <a name="1.0.10"></a>
 ## [1.0.10](https://github.com/advanced-rest-client/file-drop/compare/1.0.9...v1.0.10) (2017-02-26)
 
