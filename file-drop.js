@@ -11,15 +11,20 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import '../../@polymer/paper-button/paper-button.js';
 /**
-## `<file-drop>` File drop web component
 The `<file-drop>` component will render a filed where the user can drop files or directories into it.
 User can choose a fallback option to select a file using browser's open file dialog.
 
-When files are selected by the user the `file-accepted` will be fired and the `<file-drop>.file` will contain a file entry.
-If `multiple` attribute is present then the `<file-drop>.file` will be always an array of entries. If not, multiple it will always be a single file entry.
+When files are selected by the user the `file-accepted` will be fired and the
+`<file-drop>.file` will contain a file entry.
+If `multiple` attribute is present then the `<file-drop>.file` will be always
+an array of entries. If not, multiple it will always be a single file entry.
 
-Depending on user input method and type of the file there are 3 possible types that will be returned by `<file-drop>.file`
+Depending on user input method and type of the file there are 3 possible types
+that will be returned by `<file-drop>.file`
 * DirectoryEntry - only when the user dropped a directory (not possible with file selector)
 * FileEntry - if the user dropped a file into the element
 * File - only if the user selected file(s) via file input (without drop)
@@ -46,23 +51,14 @@ Custom property | Description | Default
 | `--file-drop-with-file` | Mixin applied to the container when the file is selected | `{}` |
 | `--file-drop-without-file` | Mixin applied to the container when the file is not selected | `{}` |
 
-The element renders only file selector button when whe screen size is less than 1024px. It means mobile device which can't make use of file drag and drop.
+The element renders only file selector button when whe screen size is less than 1024px.
+It means mobile device which can't make use of file drag and drop.
 
-@group UI Elements
-@element file-drop
+@customElement
+@polymer
 @demo demo/index.html
-@hero hero.svg
+@memberof UiElements
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import { PolymerElement } from '../../@polymer/polymer/polymer-element.js';
-
-import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
-import '../../@polymer/paper-button/paper-button.js';
-import { html } from '../../@polymer/polymer/lib/utils/html-tag.js';
 class FileDrop extends PolymerElement {
   static get template() {
     return html`
@@ -78,7 +74,12 @@ class FileDrop extends PolymerElement {
 
     #main {
       height: 100%;
-      @apply --layout-vertical;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: column;
+      -webkit-flex-direction: column;
+      flex-direction: column;
     }
 
     #file {
@@ -105,8 +106,20 @@ class FileDrop extends PolymerElement {
       .drop-zone {
         padding: 40px 0px;
         border: 2px dashed var(--file-drop-zone-border-color, var(--paper-lime-300));
-        @apply --layout-vertical;
-        @apply --layout-center-center;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+
         @apply --file-drop-zone;
       }
 
@@ -126,7 +139,6 @@ class FileDrop extends PolymerElement {
 `;
   }
 
-  static get is() { return 'file-drop'; }
   static get properties() {
     return {
       // True when file is dragged over the element.
@@ -161,7 +173,7 @@ class FileDrop extends PolymerElement {
         notify: true
       },
 
-      //True if the element received file(s).
+      // True if the element received file(s).
       hasFile: {
         type: Boolean,
         value: false,
@@ -280,4 +292,4 @@ class FileDrop extends PolymerElement {
    * @param {File} file A file entry
    */
 }
-window.customElements.define(FileDrop.is, FileDrop);
+window.customElements.define('file-drop', FileDrop);

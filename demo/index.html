@@ -1,4 +1,7 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html>
+
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
@@ -7,22 +10,13 @@
   <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
   <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
   <script type="module" src="../file-drop.js"></script>
-  <script type="module">
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<custom-style>
+  <custom-style>
     <style include="demo-pages-shared-styles"></style>
-  </custom-style>`;
-
-document.body.appendChild($_documentContainer.content);
-</script>
+  </custom-style>
 </head>
 
 <body unresolved="">
-  <script type="module">
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<div class="vertical-section-container centered">
+  <div class="vertical-section-container centered">
     <h3>Multiple selector</h3>
     <demo-snippet>
       <template>
@@ -30,7 +24,6 @@ $_documentContainer.innerHTML = `<div class="vertical-section-container centered
         <output id="multipleList"></output>
       </template>
     </demo-snippet>
-
     <h3>Accept mime</h3>
     <demo-snippet>
       <template>
@@ -38,46 +31,39 @@ $_documentContainer.innerHTML = `<div class="vertical-section-container centered
         <output id="acceptList"></output>
       </template>
     </demo-snippet>
-  </div>`;
-
-document.body.appendChild($_documentContainer.content);
-</script>
-  <script type="module">
-import '../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
-import '../../../@polymer/iron-demo-helpers/demo-snippet.js';
-import '../file-drop.js';
-document.body.addEventListener('file-accepted', (e) => {
-  switch (e.target.id) {
-    case 'multipleDrop':
-      document.querySelector('#multipleList').innerHTML = '';
-      e.detail.file.forEach((item) => traverseFileTree(item, '', '#multipleList'));
-      break;
-    case 'acceptDrop':
-      document.querySelector('#acceptList').innerHTML = '';
-      e.detail.file.forEach((item) => traverseFileTree(item, '', '#acceptList'));
-      break;
+  </div>
+  <script>
+  // http://stackoverflow.com/a/11410455/1127848
+  function traverseFileTree(item, path, target) {
+    path = path || '';
+    if (item.isDirectory) {
+      const dirReader = item.createReader();
+      dirReader.readEntries((entry) => {
+        for (let i = 0; i < entry.length; i++) {
+          traverseFileTree(entry[i], path + item.name + '/', target);
+        }
+      });
+    } else {
+      // Case for regular FileEntry from input field.
+      const t = document.querySelector(target);
+      const p = document.createElement('p');
+      p.appendChild(document.createTextNode(path + item.name));
+      t.appendChild(p);
+    }
   }
-});
-// http://stackoverflow.com/a/11410455/1127848
-function traverseFileTree(item, path, target) {
-  path = path || '';
-  if (item.isDirectory) {
-    const dirReader = item.createReader();
-    dirReader.readEntries((entry) => {
-      for (let i = 0; i < entry.length; i++) {
-        traverseFileTree(entry[i], path + item.name + '/', target);
-      }
-    });
-  } else {
-    // Case for regular FileEntry from input field.
-    const t = document.querySelector(target);
-    const p = document.createElement('p');
-    p.appendChild(document.createTextNode(path + item.name));
-    t.appendChild(p);
-  }
-}
-</script>
+  document.body.addEventListener('file-accepted', (e) => {
+    switch (e.target.id) {
+      case 'multipleDrop':
+        document.querySelector('#multipleList').innerHTML = '';
+        e.detail.file.forEach((item) => traverseFileTree(item, '', '#multipleList'));
+        break;
+      case 'acceptDrop':
+        document.querySelector('#acceptList').innerHTML = '';
+        e.detail.file.forEach((item) => traverseFileTree(item, '', '#acceptList'));
+        break;
+    }
+  });
+  </script>
+</body>
 
-
-
-</body></html>
+</html>

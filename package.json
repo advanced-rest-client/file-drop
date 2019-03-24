@@ -44,9 +44,6 @@
   ],
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "@polymer/iron-flex-layout": "^3.0.0",
-    "@polymer/paper-styles": "^3.0.0",
-    "@polymer/neon-animation": "^3.0.0",
     "@polymer/paper-button": "^3.0.0"
   }
 }
