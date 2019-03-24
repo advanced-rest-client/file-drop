@@ -1,25 +1,52 @@
 {
-  "name": "@advanced-rest-client/file-drop",
-  "version": "2.0.0",
-  "license": "Apache-2.0",
   "description": "File drop web component",
-  "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.6.1"
+  "keywords": [
+    "web-components",
+    "polymer",
+    "file",
+    "drag'n'drop",
+    "drag",
+    "drop",
+    "filesystem"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/advanced-rest-client/file-drop.git"
   },
-  "private": false,
-  "main": "file-drop.html",
+  "name": "@advanced-rest-client/file-drop",
+  "version": "3.0.0-preview.1",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@polymer/gen-typescript-declarations": "^1.6.1",
+    "@polymer/iron-component-page": "^4.0.0",
+    "@polymer/iron-demo-helpers": "^3.0.0",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "@polymer/test-fixture": "^4.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.3",
+    "wct-mocha": "^1.0.0"
+  },
+  "main": "file-drop.js",
   "scripts": {
     "lint": "polymer lint file-drop.html",
     "test": "polymer test --plugin local",
     "test-sauce": "polymer test --plugin sauce --job-name \"file-drop:local-test\"",
     "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/advanced-rest-client/file-drop.git"
-  },
   "authors": [
     "Pawel Psztyc",
     "The Advanced REST client authors <arc@mulesoft.com>"
-  ]
+  ],
+  "contributors": [
+    "Pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0",
+    "@polymer/iron-flex-layout": "^3.0.0",
+    "@polymer/paper-styles": "^3.0.0",
+    "@polymer/neon-animation": "^3.0.0",
+    "@polymer/paper-button": "^3.0.0"
+  }
 }
