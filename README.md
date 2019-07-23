@@ -5,19 +5,9 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/file-drop)
 
 
-# &lt;file-drop&gt;
+# file-drop
 
 A component that render file drop region.
-
-## Example:
-
-```html
-<file-drop on-file-accepted="..."></file-drop>
-```
-
-## API components
-
-This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)
 
 ## Usage
 
@@ -37,43 +27,52 @@ npm install --save @advanced-rest-client/file-drop
   </head>
   <body>
     <file-drop></file-drop>
+    <script>
+    {
+      document.querySelector('file-drop').onchange = (e) => {
+        console.log(e.target.file);
+      };
+    }
+    </script>
   </body>
 </html>
 ```
 
-### In a Polymer 3 element
+### In a LitElement
 
 ```js
-import {PolymerElement, html} from './node_modules/@polymer/polymer/polymer-element.js';
-import './node_modules/@advanced-rest-client/file-drop/file-drop.js';
+import { LitElement, html } from 'lit-element';
+import '@advanced-rest-client/file-drop/file-drop.js';
 
-class SampleElement extends PolymerElement {
-  static get template() {
+class SampleElement extends LitElement {
+  render() {
     return html`
-    <file-drop></file-drop>
+    <file-drop @change="${this._fileChange}"></file-drop>
     `;
+  }
+
+  _fileChange(e) {
+    this.file = e.target.file;
   }
 }
 customElements.define('sample-element', SampleElement);
 ```
 
-### Installation
+### Development
 
 ```sh
 git clone https://github.com/advanced-rest-client/file-drop
-cd api-url-editor
+cd file-drop
 npm install
-npm install -g polymer-cli
 ```
 
 ### Running the demo locally
 
 ```sh
-polymer serve --npm
-open http://127.0.0.1:<port>/demo/
+npm start
 ```
 
 ### Running the tests
 ```sh
-polymer test --npm
+polymer test
 ```

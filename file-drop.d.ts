@@ -12,6 +12,8 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
+import {LitElement, html, css} from 'lit-element';
+
 declare namespace UiElements {
 
   /**
@@ -54,12 +56,15 @@ declare namespace UiElements {
    * The element renders only file selector button when whe screen size is less than 1024px.
    * It means mobile device which can't make use of file drag and drop.
    */
-  class FileDrop extends PolymerElement {
+  class FileDrop extends LitElement {
+    file: Blob|null;
+    onchange: Function|null|undefined;
+    readonly _input: any;
 
     /**
      * True when file is dragged over the element.
      */
-    readonly dragging: boolean|null|undefined;
+    dragging: boolean|null|undefined;
 
     /**
      * Set to true if multiple files can be selected.
@@ -76,16 +81,13 @@ declare namespace UiElements {
     accept: string|null|undefined;
 
     /**
-     * A file object(s) dropped into the element.
-     */
-    file: object|null|undefined;
-
-    /**
      * True if the element received file(s).
      */
-    readonly hasFile: boolean|null|undefined;
+    hasFile: boolean|null|undefined;
+    constructor();
     connectedCallback(): void;
     disconnectedCallback(): void;
+    render(): any;
 
     /**
      * Opens a file selector.
@@ -115,16 +117,6 @@ declare namespace UiElements {
     _processEntries(entries: any): void;
 
     /**
-     * Computes class name for dragging section.
-     */
-    _computeMainSectionClass(dragging: any, hasFile: any): any;
-
-    /**
-     * Compute if the element received a file
-     */
-    _computeHasFile(file: any): any;
-
-    /**
      * Resets the state of the element to the default view.
      */
     reset(): void;
@@ -137,5 +129,3 @@ declare global {
     "file-drop": UiElements.FileDrop;
   }
 }
-
-export {};

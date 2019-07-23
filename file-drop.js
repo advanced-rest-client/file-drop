@@ -11,9 +11,8 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import '../../@polymer/paper-button/paper-button.js';
+import { LitElement, html, css } from 'lit-element';
+import '@polymer/paper-button/paper-button.js';
 /**
 The `<file-drop>` component will render a filed where the user can drop files or directories into it.
 User can choose a fallback option to select a file using browser's open file dialog.
@@ -59,127 +58,118 @@ It means mobile device which can't make use of file drag and drop.
 @demo demo/index.html
 @memberof UiElements
 */
-class FileDrop extends PolymerElement {
-  static get template() {
-    return html`
-    <style>
-    :host {
+class FileDrop extends LitElement {
+  static get styles() {
+    return css`:host {
       display: block;
-      @apply --file-drop;
+      border-width: 2px;
+      border-color: transparent;
+      border-style: dashed;
     }
 
-    .drop-zone.active {
-      border-color: var(--file-drop-zone-border-color-active, red);
+    :host([dragging]) {
+      border-color: var(--file-drop-zone-border-color-active, #F44336);
+      border-style: dashed;
+      border-width: 2px;
     }
 
-    #main {
-      height: 100%;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -ms-flex-direction: column;
-      -webkit-flex-direction: column;
-      flex-direction: column;
-    }
-
-    #file {
+    input[type="file"] {
       display: none;
-    }
-
-    .with-file {
-      @apply --file-drop-with-file;
-    }
-
-    .without-file {
-      @apply --file-drop-without-file;
     }
 
     .desktop-info {
       display: none;
     }
 
-    .main-button {
-      @apply --file-drop-action-button;
-    }
-
     @media (min-width: 1024px) {
       .drop-zone {
         padding: 40px 0px;
-        border: 2px dashed var(--file-drop-zone-border-color, var(--paper-lime-300));
-        display: -ms-flexbox;
-        display: -webkit-flex;
         display: flex;
-        -ms-flex-direction: column;
-        -webkit-flex-direction: column;
         flex-direction: column;
-
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
         justify-content: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
         align-items: center;
-
-        @apply --file-drop-zone;
       }
 
       .desktop-info {
         display: block;
       }
-    }
-    </style>
-    <div id="main">
-      <section id="dropSection" class\$="[[_computeMainSectionClass(dragging, hasFile)]]">
-        <p class="desktop-info">Drop file here</p>
-        <p class="desktop-info">or select from your device</p>
-        <paper-button class="main-button" on-tap="selectFile">Select file</paper-button>
-        <input type="file" id="file" on-change="_manualSelected" multiple\$="[[multiple]]" accept\$="[[accept]]">
-      </section>
-    </div>
-`;
+    }`;
+  }
+
+  render() {
+    const { multiple, accept } = this;
+    return html`<section id="dropSection" class="drop-zone">
+      <p class="desktop-info">Drop file here</p>
+      <p class="desktop-info">or select from your device</p>
+      <paper-button class="main-button" @click="${this.selectFile}">Select file</paper-button>
+      <input type="file" @change="${this._manualSelected}" ?multiple="${multiple}" accept="${accept}">
+    </section>`;
   }
 
   static get properties() {
     return {
       // True when file is dragged over the element.
-      dragging: {
-        type: Boolean,
-        value: false,
-        readOnly: true,
-        notify: true
-      },
-
+      dragging: { type: Boolean, reflect: true },
       /**
        * Set to true if multiple files can be selected.
        * If not set only first file fille be selected.
        */
-      multiple: {
-        type: Boolean,
-        value: false
-      },
-
+      multiple: { type: Boolean },
       /**
        * A set of comma-separated strings, each of which is a valid MIME type,
        * with no parameters.
        *
        * Currently this will not work for files dropped into the element.
        */
-      accept: String,
-
-      // A file object(s) dropped into the element.
-      file: {
-        type: Object,
-        value: null,
-        notify: true
-      },
+      accept: { type: String },
 
       // True if the element received file(s).
-      hasFile: {
-        type: Boolean,
-        value: false,
-        computed: '_computeHasFile(file)'
-      }
+      hasFile: { type: Boolean }
     };
+  }
+  /**
+   * @return {Blob} A file object(s) dropped into the element.
+   */
+  get file() {
+    return this._file;
+  }
+
+  set file(value) {
+    const old = this._file;
+    this._file = value;
+    this.hasFile = !!value;
+    this.requestUpdate('hasFile', old);
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        value
+      }
+    }));
+  }
+
+  /**
+   * @return {Function|undefined} A function previously used to register `change`
+   * event handler.
+   */
+  get onchange() {
+    return this._changeClb;
+  }
+  /**
+   * @param {Function} clb Event handler for `change` event.
+   */
+  set onchange(clb) {
+    if (this._changeClb) {
+      this.removeEventListener('change', this._changeClb);
+    }
+    if (typeof clb !== 'function') {
+      this._changeClb = null;
+      return;
+    }
+    this._changeClb = clb;
+    this.addEventListener('change', this._changeClb);
+  }
+
+  get _input() {
+    return this.shadowRoot.querySelector('input[type="file"]');
   }
 
   constructor() {
@@ -191,15 +181,24 @@ class FileDrop extends PolymerElement {
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    /* istanbul ignore else  */
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
     this.addEventListener('dragenter', this._onDragEnter);
     this.addEventListener('dragleave', this._onDragLeave);
     this.addEventListener('dragover', this._onDragOver);
     this.addEventListener('drop', this._onDrop);
+    if (!this.hasAttribute('aria-dropeffect')) {
+      this.setAttribute('aria-dropeffect', 'copy');
+    }
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback();
+    /* istanbul ignore else  */
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
     this.removeEventListener('dragenter', this._onDragEnter);
     this.removeEventListener('dragleave', this._onDragLeave);
     this.removeEventListener('dragover', this._onDragOver);
@@ -208,29 +207,30 @@ class FileDrop extends PolymerElement {
 
   // Opens a file selector.
   selectFile() {
-    this.$.file.click();
+    this._input.click();
   }
 
   // Handler for dragenter event.
   _onDragEnter(e) {
     e.stopPropagation();
     e.preventDefault();
-    this._setDragging(true);
+    this.dragging = true;
   }
 
   _onDragLeave(e) {
     e.stopPropagation();
     e.preventDefault();
-    this._setDragging(false);
+    this.dragging = false;
   }
+
   _onDragOver(e) {
     e.stopPropagation();
     e.preventDefault();
-    this._setDragging(true);
+    this.dragging = true;
   }
   // Handler for drop event.
   _onDrop(e) {
-    this._setDragging(false);
+    this.dragging = false;
     e.stopPropagation();
     e.preventDefault();
 
@@ -240,9 +240,10 @@ class FileDrop extends PolymerElement {
 
   // A handler called when the user manually selected the file (not by drag and drop)
   _manualSelected() {
-    const input = this.$.file;
+    const input = this._input;
+    /* istanbul ignore else  */
     if (!input.files.length) {
-      this.set('file', undefined);
+      this.file = undefined;
     } else {
       this._processEntries(Array.from(input.files));
     }
@@ -250,46 +251,29 @@ class FileDrop extends PolymerElement {
   // Called when the element receive a file.
   _processEntries(entries) {
     if (this.multiple) {
-      this.set('file', entries);
+      this.file = entries;
     } else {
-      this.set('file', entries[0]);
+      this.file = entries[0];
     }
-    this.dispatchEvent(new CustomEvent('file-accepted', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        file: this.file
-      }
-    }));
-  }
-
-  // Computes class name for dragging section.
-  _computeMainSectionClass(dragging, hasFile) {
-    let cls = 'drop-zone';
-    if (dragging) {
-      cls += ' active';
-    }
-    if (hasFile) {
-      cls += ' with-file';
-    } else {
-      cls += ' without-file';
-    }
-    return cls;
-  }
-  // Compute if the element received a file
-  _computeHasFile(file) {
-    return !!file;
   }
   // Resets the state of the element to the default view.
   reset() {
     this.file = null;
-    this.$.file.value = null;
+    this._input.value = null;
   }
+  /**
+   * Fired when the file has been accepted and ready to use.
+   *
+   * @event change
+   * @param {File} value Selected file or files
+   */
+
   /**
    * Fired when the file has been accepted and ready to use.
    *
    * @event file-accepted
    * @param {File} file A file entry
+   * @deprecated Use `change` event when listening for file change.
    */
 }
 window.customElements.define('file-drop', FileDrop);
