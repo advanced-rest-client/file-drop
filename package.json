@@ -1,25 +1,75 @@
 {
   "name": "@advanced-rest-client/file-drop",
-  "version": "2.0.0",
-  "license": "Apache-2.0",
   "description": "File drop web component",
-  "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.6.1"
-  },
-  "private": false,
-  "main": "file-drop.html",
-  "scripts": {
-    "lint": "polymer lint file-drop.html",
-    "test": "polymer test --plugin local",
-    "test-sauce": "polymer test --plugin sauce --job-name \"file-drop:local-test\"",
-    "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
-  },
+  "version": "3.0.0",
+  "license": "Apache-2.0",
+  "main": "file-drop.js",
+  "keywords": [
+    "web-components",
+    "file",
+    "drag'n'drop",
+    "drag",
+    "drop",
+    "filesystem"
+  ],
+  "authors": [
+    "Pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
+  "contributors": [
+    "Pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/advanced-rest-client/file-drop.git"
   },
-  "authors": [
-    "Pawel Psztyc",
-    "The Advanced REST client authors <arc@mulesoft.com>"
-  ]
+  "bugs": {
+    "url": "https://github.com/advanced-rest-client/file-drop/issues",
+    "email": "arc@mulesoft.com"
+  },
+  "dependencies": {
+    "@polymer/paper-button": "^3.0.0",
+    "lit-element": "^2.0.1"
+  },
+  "devDependencies": {
+    "@advanced-rest-client/a11y-suite": "^1.1.0",
+    "@advanced-rest-client/arc-demo-helper": "^1.0.3",
+    "@advanced-rest-client/testing-karma-sl": "^1.0.2",
+    "@advanced-rest-client/eslint-config": "^1.0.6",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^7.0.0",
+    "@open-wc/eslint-config": "^0.4.1",
+    "@open-wc/prettier-config": "^0.1.0",
+    "@open-wc/testing": "^0.11.1",
+    "@open-wc/testing-karma": "^2.0.6",
+    "@polymer/gen-typescript-declarations": "^1.6.2",
+    "husky": "^1.0.0",
+    "lint-staged": "^8.0.0",
+    "lit-element": "^2.0.1",
+    "owc-dev-server": "^1.0.0",
+    "sinon": "^7.2.3",
+    "webpack-merge": "^4.1.5"
+  },
+  "scripts": {
+    "test": "karma start --coverage",
+    "update-types": "gen-typescript-declarations --deleteExisting --outDir .",
+    "start": "owc-dev-server --app-index demo/index.html --open --watch",
+    "lint:eslint": "eslint --ext .js,.html .",
+    "format:eslint": "eslint --ext .js,.html . --fix",
+    "lint:prettier": "prettier \"**/*.js\" --list-different || (echo '↑↑ these files are not prettier formatted ↑↑' && exit 1)",
+    "format:prettier": "prettier \"**/*.js\" --write",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "test:legacy": "karma start --legacy --coverage",
+    "test:legacy:watch": "karma start --legacy --auto-watch=true --single-run=false",
+    "test:sl": "karma start karma.sl.config.js --legacy --coverage"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
 }

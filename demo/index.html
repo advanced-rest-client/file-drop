@@ -1,50 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
   <title>file-drop demo</title>
-  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-  <link rel="import" href="../file-drop.html">
-  <custom-style>
-    <style include="demo-pages-shared-styles"></style>
-  </custom-style>
+
+  <script type="module" src="../node_modules/@advanced-rest-client/arc-demo-helper/arc-demo-helper.js"></script>
+  <script type="module" src="../file-drop.js"></script>
+
+  <style>
+  html {
+    --file-drop-zone-border-color-active: #F44336;
+  }
+  </style>
 </head>
 
-<body unresolved>
+<body unresolved="">
   <div class="vertical-section-container centered">
     <h3>Multiple selector</h3>
-    <demo-snippet>
+    <arc-demo-helper>
       <template>
-        <file-drop multiple id="multipleDrop"></file-drop>
+        <file-drop multiple="" id="multipleDrop"></file-drop>
         <output id="multipleList"></output>
       </template>
-    </demo-snippet>
+    </arc-demo-helper>
 
-    <h3>Accept mime</h3>
-    <demo-snippet>
+    <h3>Accepts mime</h3>
+    <arc-demo-helper>
       <template>
-        <file-drop multiple accept="image/*" id="acceptDrop"></file-drop>
+        <file-drop multiple="" accept="image/*" id="acceptDrop"></file-drop>
         <output id="acceptList"></output>
       </template>
-    </demo-snippet>
+    </arc-demo-helper>
   </div>
   <script>
-  document.body.addEventListener('file-accepted', (e) => {
-    switch (e.target.id) {
-      case 'multipleDrop':
-        document.querySelector('#multipleList').innerHTML = '';
-        e.detail.file.forEach((item) => traverseFileTree(item, '', '#multipleList'));
-        break;
-      case 'acceptDrop':
-        document.querySelector('#acceptList').innerHTML = '';
-        e.detail.file.forEach((item) => traverseFileTree(item, '', '#acceptList'));
-        break;
-    }
-  });
   // http://stackoverflow.com/a/11410455/1127848
   function traverseFileTree(item, path, target) {
     path = path || '';
@@ -63,6 +54,18 @@
       t.appendChild(p);
     }
   }
+  document.body.addEventListener('file-accepted', (e) => {
+    switch (e.target.id) {
+      case 'multipleDrop':
+        document.querySelector('#multipleList').innerHTML = '';
+        e.detail.file.forEach((item) => traverseFileTree(item, '', '#multipleList'));
+        break;
+      case 'acceptDrop':
+        document.querySelector('#acceptList').innerHTML = '';
+        e.detail.file.forEach((item) => traverseFileTree(item, '', '#acceptList'));
+        break;
+    }
+  });
   </script>
 </body>
 
