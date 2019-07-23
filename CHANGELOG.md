@@ -112,3 +112,28 @@
 
 
 
+# [3.0.0](https://github.com/advanced-rest-client/file-drop/compare/1.0.9...3.0.0) (2019-07-23)
+
+
+### Breaking
+
+* Upgrading to Polymer 3 ([c2a91819c311faf9b933a14ebd393c7f6dd8605b](https://github.com/advanced-rest-client/file-drop/commit/c2a91819c311faf9b933a14ebd393c7f6dd8605b))
+
+### build
+
+* bumping version ([0ee26cfcc1a90ca859ae098e89cce22fd794e862](https://github.com/advanced-rest-client/file-drop/commit/0ee26cfcc1a90ca859ae098e89cce22fd794e862))
+
+### refactor
+
+* upggrading to LitElement ([bc2fc74c3e3271cd1f86124ecbc2a2bfb3dbfc69](https://github.com/advanced-rest-client/file-drop/commit/bc2fc74c3e3271cd1f86124ecbc2a2bfb3dbfc69))
+
+### test
+
+* updating tests configuration ([5d61a2bd3d55221a69fa03058d0a76fadaab0318](https://github.com/advanced-rest-client/file-drop/commit/5d61a2bd3d55221a69fa03058d0a76fadaab0318))
+
+### Update
+
+* Updated element to work on mobile devices. The element will render the select file button only ([c7561e4674fc0ad8b48905b5589c408ce741acf2](https://github.com/advanced-rest-client/file-drop/commit/c7561e4674fc0ad8b48905b5589c408ce741acf2))
+
+
+
