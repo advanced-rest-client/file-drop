@@ -29,14 +29,13 @@
     "email": "arc@mulesoft.com"
   },
   "dependencies": {
-    "@polymer/paper-button": "^3.0.0",
-    "lit-element": "^2.0.1"
+    "@polymer/paper-button": "^3.0.0"
   },
   "devDependencies": {
     "@advanced-rest-client/a11y-suite": "^1.1.0",
-    "@advanced-rest-client/arc-demo-helper": "^1.0.3",
-    "@advanced-rest-client/testing-karma-sl": "^1.0.2",
-    "@advanced-rest-client/eslint-config": "^1.0.6",
+    "@advanced-rest-client/arc-demo-helper": "^1.0.14",
+    "@advanced-rest-client/eslint-config": "^1.1.2",
+    "@advanced-rest-client/testing-karma-sl": "^1.0.4",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^7.0.0",
     "@open-wc/eslint-config": "^0.4.1",
@@ -46,10 +45,10 @@
     "@polymer/gen-typescript-declarations": "^1.6.2",
     "husky": "^1.0.0",
     "lint-staged": "^8.0.0",
-    "lit-element": "^2.0.1",
-    "owc-dev-server": "^1.0.0",
-    "sinon": "^7.2.3",
-    "webpack-merge": "^4.1.5"
+    "lit-element": "^2.2.1",
+    "owc-dev-server": "^1.0.1",
+    "sinon": "^7.4.1",
+    "webpack-merge": "^4.2.2"
   },
   "scripts": {
     "test": "karma start --coverage",
