@@ -1,7 +1,6 @@
 
 import { fixture, assert } from '@open-wc/testing';
-import { a11ySuite } from '@advanced-rest-client/a11y-suite/index.js';
-import sinon from 'sinon/pkg/sinon-esm.js';
+import * as sinon from 'sinon/pkg/sinon-esm.js';
 import '../file-drop.js';
 
 describe('<file-drop>', () => {
@@ -264,7 +263,8 @@ describe('<file-drop>', () => {
 
   describe('a11y', () => {
     it('passes accessibility tests', async () => {
-      await a11ySuite('Normal state', `<file-drop></file-drop>`);
+      const elm = await fixture(`<file-drop></file-drop>`);
+      await assert.isAccessible(elm);
     });
 
     it('has aria-dropeffect attribute set', async () => {

@@ -12,7 +12,7 @@ License for the specific language governing permissions and limitations under
 the License.
 */
 import { LitElement, html, css } from 'lit-element';
-import '@polymer/paper-button/paper-button.js';
+import '@anypoint-web-components/anypoint-button/anypoint-button.js';
 /**
 The `<file-drop>` component will render a filed where the user can drop files or directories into it.
 User can choose a fallback option to select a file using browser's open file dialog.
@@ -37,24 +37,10 @@ The array of files may contain both DirectoryEntry and FileEntry types but never
 
 Note that due the limitations of web filesystem the accept attribute will not work when dropping a file.
 
-### Styling
-`<file-drop>` provides the following custom properties and mixins for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-| `--file-drop` | Mixin applied to the element | `{}` |
-| `--file-drop-zone-border-color` | A border color of the drop zone | `--paper-lime-300` |
-| `--file-drop-zone` | Mixin applied to the drop zone | `{}` |
-| `--file-drop-zone-border-color-active` | A border color of the active drop zone (files over the zone) | red |
-| `--file-drop-action-button` | Mixin applied to the main action button | `{}` |
-| `--file-drop-with-file` | Mixin applied to the container when the file is selected | `{}` |
-| `--file-drop-without-file` | Mixin applied to the container when the file is not selected | `{}` |
-
 The element renders only file selector button when whe screen size is less than 1024px.
 It means mobile device which can't make use of file drag and drop.
 
 @customElement
-@polymer
 @demo demo/index.html
 @memberof UiElements
 */
@@ -97,11 +83,15 @@ class FileDrop extends LitElement {
   }
 
   render() {
-    const { multiple, accept } = this;
+    const { multiple, accept, compatibility } = this;
     return html`<section id="dropSection" class="drop-zone">
       <p class="desktop-info">Drop file here</p>
       <p class="desktop-info">or select from your device</p>
-      <paper-button class="main-button" @click="${this.selectFile}">Select file</paper-button>
+      <anypoint-button
+        class="main-button"
+        @click="${this.selectFile}"
+        ?compatibility="${compatibility}"
+      >Select file</anypoint-button>
       <input type="file" @change="${this._manualSelected}" ?multiple="${multiple}" accept="${accept}">
     </section>`;
   }
@@ -124,7 +114,11 @@ class FileDrop extends LitElement {
       accept: { type: String },
 
       // True if the element received file(s).
-      hasFile: { type: Boolean }
+      hasFile: { type: Boolean },
+      /**
+       * Enables compatibility with Anypoint.
+       */
+      compatibility: { type: Boolean }
     };
   }
   /**
