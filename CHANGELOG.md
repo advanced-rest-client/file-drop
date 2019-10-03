@@ -137,3 +137,7 @@
 
 
 
+# [3.1.0](https://github.com/advanced-rest-client/file-drop/compare/1.0.9...3.1.0) (2019-10-03)
+
+
+
