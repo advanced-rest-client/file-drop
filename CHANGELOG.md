@@ -141,3 +141,52 @@
 
 
 
+<a name="3.2.0"></a>
+## [3.2.0](https://github.com/advanced-rest-client/file-drop/compare/3.0.0...3.2.0) (2020-06-30)
+
+### Build
+
+* bumping version [0ee26cf](https://github.com/advanced-rest-client/file-drop/commit/0ee26cfcc1a90ca859ae098e89cce22fd794e862) by Pawel
+
+
+### Update
+
+* adding types definition [1798808](https://github.com/advanced-rest-client/file-drop/commit/1798808758167d75f1f1e4eb54b3c14974431911) by Pawel
+* upgrading dependencies to fix audit errors [d9667b7](https://github.com/advanced-rest-client/file-drop/commit/d9667b7cd214abb325bd6f330cc5ee0e44c5fca8) by Pawel Psztyc
+
+
+### Refactor
+
+* replacing paper- with anypoint- button [c28c607](https://github.com/advanced-rest-client/file-drop/commit/c28c607a80a965d2c70bad83eaa7104f8b22d618) by Pawel
+* upggrading to LitElement [bc2fc74](https://github.com/advanced-rest-client/file-drop/commit/bc2fc74c3e3271cd1f86124ecbc2a2bfb3dbfc69) by Pawel
+
+
+### Testing
+
+* updating tests configuration [5d61a2b](https://github.com/advanced-rest-client/file-drop/commit/5d61a2bd3d55221a69fa03058d0a76fadaab0318) by Pawel
+
+
+### Other
+
+* Breaking: Upgrading to Polymer 3
+ [c2a9181](https://github.com/advanced-rest-client/file-drop/commit/c2a91819c311faf9b933a14ebd393c7f6dd8605b) by Pawel
+* Update: Updated element to work on mobile devices. The element will render the select file button only
+ [c7561e4](https://github.com/advanced-rest-client/file-drop/commit/c7561e4674fc0ad8b48905b5589c408ce741acf2) by CI Agent
+* Update: Removed unised and unstable code
+ [741a2e4](https://github.com/advanced-rest-client/file-drop/commit/741a2e44137e5e548586c4b07d2c35c9fcf02893) by Pawel Psztyc
+* Update: Added new Travis configuration
+ [024db3c](https://github.com/advanced-rest-client/file-drop/commit/024db3c4ca3d5a098701fd06e45f9cdcf55bcdf0) by jarrodek
+* Update: Added height for main container
+ [41cef58](https://github.com/advanced-rest-client/file-drop/commit/41cef58c45f0ee011b93d873fc0e96eafb645047) by jarrodek
+* New: Added hero image
+ [feb2164](https://github.com/advanced-rest-client/file-drop/commit/feb2164a6b09c2cfabab338dca336fe215a9949e) by jarrodek
+* New: Added dependencyci
+ [1cc20e8](https://github.com/advanced-rest-client/file-drop/commit/1cc20e8e7730121ee25e6b14b9434911e7a1e456) by jarrodek
+* Update: The attribute "file" is now notifying for changes
+ [1142e7b](https://github.com/advanced-rest-client/file-drop/commit/1142e7b852e36c850e72e5a5690ef19c130bc549) by Paweł Psztyć
+* Docs: Updated readme file
+ [8a290e2](https://github.com/advanced-rest-client/file-drop/commit/8a290e2d106c22ddd92db80144bc89e7acbce198) by Paweł Psztyć
+* New: Initial commit before the release
+ [de534cd](https://github.com/advanced-rest-client/file-drop/commit/de534cde6c9b4b6a2170bc4b567f3d4dd5b17c81) by Paweł Psztyć
+
+
