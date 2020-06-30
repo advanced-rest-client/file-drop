@@ -1,6 +1,6 @@
 [![Published on NPM](https://img.shields.io/npm/v/@advanced-rest-client/file-drop.svg)](https://www.npmjs.com/package/@advanced-rest-client/file-drop)
 
-[![Build Status](https://travis-ci.org/advanced-rest-client/file-drop.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/file-drop)
+[![Build Status](https://travis-ci.com/advanced-rest-client/file-drop.svg)](https://travis-ci.com/advanced-rest-client/file-drop)
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/file-drop)
 
@@ -58,7 +58,7 @@ class SampleElement extends LitElement {
 customElements.define('sample-element', SampleElement);
 ```
 
-### Development
+## Development
 
 ```sh
 git clone https://github.com/advanced-rest-client/file-drop
